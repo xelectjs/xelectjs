@@ -36,7 +36,7 @@ function HeavilyTaskedComponent(){
 }
 
 export function App() {
-  const [count,setCount] = useState(0);
+  const [count,setCount] = useState(0);// Defines a state variable
   console.log("I'm logged whenever button is clicked: "+count+" times.")
   const onButtonClicked = ()=>{setCount(count+1)}
   return (
@@ -61,7 +61,39 @@ Xelect emerged from a determination to delve into the intricacies of improving R
 concerns and providing more streamlined and efficient solutions. The idea is that if current frameworks, despite their challenges, are already perceived as fast, 
 a framework like Xelect that prioritizes tackling these issues directly could potentially offer even better performance and address some of the neglected aspects.    
 
-  
+Here is the Xelect version of the React code snippet above. Without any extra work, the Xelct code solves the problem of unneccessary task executions.
+[Try code snippet](https://replit.com/@xelectjs/Xelectjs-heavy-task#app/src/modules/index.js)
+
+```js
+//<@imports>
+import Xelect from "xelect";
+//</>
+const { UI } = Xelect;
+// This component even without optimisations, prevents unneccessary task executions
+const HeavilyTaskedComponent = UI.CreateComponent('heavy-task', function() {
+  console.log('I just performed a heavy task');
+  return <x><div>I just logged to the console</div></x>
+})
+
+export default UI.CreateComponent('example_app', function() {
+  this.onCreation = function() {
+    this.state = { count: 0 } // Defines a reactive state object
+    this.heavilyTaskedComponentInstance = HeavilyTaskedComponent.instance(); // Create an instance of heavily tasked component
+  }
+  console.log("I get executed once. It doesn't mater the number of times state changes")
+  const onButtonClicked = (event, This)=>{ This.state.count++; }
+  return (
+    <x>
+      <div style="text-align:center;">
+        <h2>Solving unnecessary task execution example</h2>
+        <button onClick={onButtonClicked}>Clicked: <>{this.state.count}</></button>
+        <>{UI.render(this.heavilyTaskedComponentInstance)}</>
+      </div>
+    </x>
+  )
+});
+
+```
 
 
 
